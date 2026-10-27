@@ -1,6 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 const fs = require('fs');
-const location = process.env.SQLITE_DB_LOCATION || '/etc/todos/todo.db';
+const location = process.env.SQLITE_DB_LOCATION || 'db/todos/todo.db';
 
 let db, dbAll, dbRun;
 
@@ -91,7 +91,7 @@ async function updateItem(id, item) {
             },
         );
     });
-} 
+}
 
 async function removeItem(id) {
     return new Promise((acc, rej) => {
@@ -102,6 +102,15 @@ async function removeItem(id) {
     });
 }
 
+async function health() {
+  return new Promise((acc, rej) => {
+      db.run('SELECT 1', err => {
+        if (err) return rej(err);
+        acc();
+      });
+  });
+}
+
 module.exports = {
     init,
     teardown,
@@ -110,4 +119,5 @@ module.exports = {
     storeItem,
     updateItem,
     removeItem,
+    health,
 };

@@ -4,18 +4,26 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon -L src/index.js"
+    "dev": "nodemon -L src/index.js",
+    "test": "jest"
   },
   "dependencies": {
     "express": "^5.2.1",
     "mysql2": "^3.16.1",
     "sqlite3": "^5.1.7",
     "uuid": "^13.0.0",
-    "vitest": "^5.0.5",
     "wait-port": "^1.1.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "@babel/core": "^8.0.9",
+    "@babel/preset-env": "^8.0.7",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^26.6.5",
+    "babel-jest": "^30.5.2",
+    "jest": "^30.5.2",
+    "nodemon": "^3.1.9",
+    "supertest": "^7.3.1",
+    "ts-jest": "^29.4.15"
   },
   "overrides": {
     "tar": "7.5.4",

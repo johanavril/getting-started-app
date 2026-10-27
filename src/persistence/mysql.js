@@ -21,8 +21,8 @@ async function init() {
     const password = PASSWORD_FILE ? fs.readFileSync(PASSWORD_FILE) : PASSWORD;
     const database = DB_FILE ? fs.readFileSync(DB_FILE) : DB;
 
-    await waitPort({ 
-        host, 
+    await waitPort({
+        host,
         port: 3306,
         timeout: 10000,
         waitForDns: true,
@@ -124,6 +124,15 @@ async function removeItem(id) {
     });
 }
 
+async function health() {
+  return new Promise((acc, rej) => {
+      db.run('SELECT 1', err => {
+        if (err) return rej(err);
+        acc();
+      });
+  });
+}
+
 module.exports = {
     init,
     teardown,
@@ -132,4 +141,5 @@ module.exports = {
     storeItem,
     updateItem,
     removeItem,
+    health,
 };
