@@ -15,7 +15,15 @@ app.put('/items/:id', updateItem);
 app.delete('/items/:id', deleteItem);
 
 db.init().then(() => {
-    app.listen(3000, () => console.log('Listening on port 3000'));
+    const portNumber = process.env.PORT ?? '3000';
+    if (isNaN(portNumber)) {
+      throw new Error(' invalid port number, must be a number');
+    }
+    const port = Number.parseInt(portNumber, 10);
+    if(Number.isInteger(port) || port < 1 || port > 65535) {
+      throw new Error('invalid port number, must be a number between 1 and 65535');
+    }
+    app.listen(port, () => console.log(`Listening on port ${port}`));
 }).catch((err) => {
     console.error(err);
     process.exit(1);
