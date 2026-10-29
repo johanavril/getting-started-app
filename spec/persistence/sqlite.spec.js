@@ -38,7 +38,7 @@ test('it can update an existing item', async () => {
 
     await db.updateItem(
         ITEM.id,
-        Object.assign({}, ITEM, { completed: !ITEM.completed }),
+        Object.assign({}, ITEM, { completed: !ITEM.completed })
     );
 
     const items = await db.getItems();

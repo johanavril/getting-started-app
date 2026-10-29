@@ -1,13 +1,16 @@
-const fs = require('fs');
 const supertest = require('supertest');
 const { createApp } = require('../../src/app');
 
-let app;
+let app, db;
 beforeAll(async () => {
-  app = await createApp();
+    ({ app, db } = await createApp());
+});
+
+afterAll(async () => {
+    await db.teardown();
 });
 
 test('it can serve response', async () => {
-  const response = await supertest(app).get('/healthz').expect(200);
-  expect(response.body).toEqual({status: 'ok'});
+    const response = await supertest(app).get('/healthz').expect(200);
+    expect(response.body).toEqual({ status: 'ok' });
 });
