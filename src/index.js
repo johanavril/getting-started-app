@@ -15,7 +15,19 @@ const loadPort = () => {
 (async () => {
   const port = loadPort();
 
-  const app = await createApp();
+  const { app, db } = await createApp();
 
-  app.listen(port, () => console.log(`Listening on port ${port}`));
+  const server = app.listen(port, () => console.log(`Listening on port ${port}`));
+
+  const gracefulShutdown = () => {
+      db.teardown()
+          .catch(() => {})
+          .then(() => server.close(() => {
+            process.exit();
+          }));
+  };
+
+  process.on('SIGINT', gracefulShutdown);
+  process.on('SIGTERM', gracefulShutdown);
+  process.on('SIGUSR2', gracefulShutdown); // Sent by nodemon
 })();
