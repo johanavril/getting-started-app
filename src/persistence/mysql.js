@@ -126,7 +126,7 @@ async function removeItem(id) {
 
 async function health() {
   return new Promise((acc, rej) => {
-      db.run('SELECT 1', err => {
+      pool.query('SELECT 1', err => {
         if (err) return rej(err);
         acc();
       });
