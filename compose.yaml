@@ -1,40 +1,40 @@
 name: getting-started
 services:
-    app:
-        build: .
-        ports:
-            - '${APP_PORT:-3000}:3000'
-        environment:
-            - MYSQL_HOST=${MYSQL_HOST:-db}
-            - MYSQL_USER=${MYSQL_USER:-user}
-            - MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}
-            - MYSQL_DB=${MYSQL_DB:-database}
-        depends_on:
-            db:
-                condition: service_healthy
-                restart: true
-        develop:
-            watch:
-                - action: sync+restart
-                  path: src
-                  target: /app/src
-                - action: rebuild
-                  path: package-lock.json
-    db:
-        image: mysql:26
-        restart: always
-        environment:
-            - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-            - MYSQL_USER=${MYSQL_USER:-user}
-            - MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}
-            - MYSQL_DATABASE=${MYSQL_DB:-database}
-        healthcheck:
-            test: 'mysql --user=${MYSQL_USER:-user} --password=${MYSQL_PASSWORD:-password} --execute="SELECT 1;"'
-            timeout: 20s
-            retries: 10
-        ports:
-            - '3306:3306'
-        volumes:
-            - db-data:/var/lib/mysql
+  app:
+    build: .
+    ports:
+      - '${APP_PORT:-3000}:3000'
+    environment:
+      - MYSQL_HOST=${MYSQL_HOST:-db}
+      - MYSQL_USER=${MYSQL_USER:-user}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}
+      - MYSQL_DB=${MYSQL_DB:-database}
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    develop:
+      watch:
+        - action: sync+restart
+          path: src
+          target: /app/src
+        - action: rebuild
+          path: package-lock.json
+  db:
+    image: mysql:26
+    restart: always
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_USER=${MYSQL_USER:-user}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}
+      - MYSQL_DATABASE=${MYSQL_DB:-database}
+    healthcheck:
+      test: 'mysql --user=${MYSQL_USER:-user} --password=${MYSQL_PASSWORD:-password} --execute="SELECT 1;"'
+      timeout: 20s
+      retries: 10
+    ports:
+      - '3306:3306'
+    volumes:
+      - db-data:/var/lib/mysql
 volumes:
-    db-data:
+  db-data:
