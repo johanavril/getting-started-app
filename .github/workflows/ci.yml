@@ -35,7 +35,7 @@ jobs:
               --retry-delay 2 \
               --retry-max-time 30 \
               --retry-all-errors \
-              http://localhost:3000/healthz || exit 1
+              http://localhost:3000/healthx || exit 1
       - run: docker logs getting-started-app
         if: always()
       - run: docker rm -f getting-started-app
