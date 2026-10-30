@@ -21,3 +21,15 @@ jobs:
       - run: npm run test
         env:
           SQLITE_DB_LOCATION: ${{ runner.temp }}/todos.db
+      - uses: docker/setup-buildx-action@v4
+      - uses: docker/build-push-action@v7
+        with:
+          load: true
+          tags: getting-started-app:${{ github.sha }}
+      - run: docker run -d -p 3000:3000 --name getting-started-app getting-started-app:${{ github.sha }}
+        env:
+          SQLITE_DB_LOCATION: ${{ runner.temp }}/todos.db
+      - run: |
+          sleep 5
+          curl --fail http://localhost:3000/healthz || exit 1
+      - run: docker rm -f getting-started-app
