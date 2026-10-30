@@ -27,9 +27,16 @@ jobs:
           load: true
           tags: getting-started-app:${{ github.sha }}
       - run: docker run -d -p 3000:3000 --name getting-started-app getting-started-app:${{ github.sha }}
-        env:
-          SQLITE_DB_LOCATION: ${{ runner.temp }}/todos.db
       - run: |
-          sleep 5
-          curl --fail http://localhost:3000/healthz || exit 1
+          curl --fail \
+              --connect-timeout 5 \
+              --max-time 10 \
+              --retry 3 \
+              --retry-delay 2 \
+              --retry-max-time 30 \
+              --retry-all-errors \
+              http://localhost:3000/healthz || exit 1
+      - run: docker logs getting-started-app
+        if: always()
       - run: docker rm -f getting-started-app
+        if: always()
