@@ -28,7 +28,8 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha
           tags: getting-started-app:${{ github.sha }}
-      - run: docker run -d -p 3000:3000 --name getting-started-app getting-started-app:${{ github.sha }}
+      - id: docker-run
+        run: docker run -d -p 3000:3000 --name getting-started-app getting-started-app:${{ github.sha }}
       - run: |
           curl --fail \
               --connect-timeout 5 \
@@ -39,6 +40,6 @@ jobs:
               --retry-all-errors \
               http://localhost:3000/healthz || exit 1
       - run: docker logs getting-started-app
-        if: always()
+        if: steps.docker-run.conclusion == 'success'
       - run: docker rm -f getting-started-app
         if: always()
