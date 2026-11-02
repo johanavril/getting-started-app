@@ -19,7 +19,7 @@ export default defineConfig([
         },
     },
     {
-        files: ['src/**/*.js', 'spec/**/*.js'],
+        files: ['**/*.js'],
         ignores: ['src/static/**/*.js'],
         plugins: { js },
         extends: ['js/recommended'],

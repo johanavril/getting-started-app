@@ -39,7 +39,7 @@ describe('application initialization', () => {
         { port: undefined, expected: '3000' },
         { port: '3100', expected: '3100' },
     ])(
-        'successfully serve $served when port specified is $port',
+        'successfully serve expected when port specified is $port',
         async ({ port, expected }) => {
             const directory = mkdtempSync(join(tmpdir(), 'todos-'));
             const database = join(directory, 'todos.db');

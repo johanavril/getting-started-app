@@ -25,9 +25,18 @@ const loadPort = () => {
 
     const { app, db } = await createApp();
 
-    const server = app.listen(port, () =>
-        console.log(`Listening on port ${port}`)
-    );
+    const server = app.listen(port);
+    server.on('error', (err) => {
+        if (err.code === 'EADDRINUSE') {
+            console.error(`Port ${port} is already in use.`);
+            process.exit(1);
+        } else {
+            console.error('Server error:', err);
+        }
+    });
+    server.once('listening', () => {
+        console.log(`Listening on port ${port}`);
+    });
 
     const gracefulShutdown = () => {
         server.close(() => {
