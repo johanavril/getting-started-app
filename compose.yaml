@@ -1,10 +1,7 @@
 name: getting-started
 services:
   app:
-    build:
-      context: .
-      args:
-        PORT: ${APP_PORT:-3000}
+    build: .
     ports:
       - '${HOST_PORT:-3000}:${APP_PORT:-3000}'
     environment:

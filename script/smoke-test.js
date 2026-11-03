@@ -44,6 +44,7 @@ const exponentialBackoff = async (baseDelay, maxDelay, attempt) => {
     while (attempt < 5) {
         try {
             await sendRequest(url);
+            console.log('smoke test OK');
             process.exit(0);
         } catch (err) {
             console.log(err.message, err.name, err.cause);

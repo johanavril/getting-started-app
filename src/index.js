@@ -39,8 +39,11 @@ const loadPort = () => {
     });
 
     const gracefulShutdown = () => {
+        console.log('start shutdown', new Date());
         server.close(() => {
+            console.log('server closed', new Date());
             db.teardown().then(() => {
+                console.log('db toredown', new Date());
                 process.exit();
             });
         });
